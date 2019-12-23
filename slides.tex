@@ -25,6 +25,25 @@
   column sep=15mm,
 }
 
+\newcommand{\Esszimmer}{\node[iri] (Esszimmer) {Esszimmer};}
+\newcommand{\Kueche}{\node[iri] (Kueche) {Küche};}
+\newcommand{\thistalk}{\node[iri] (this talk) {this talk};}
+\newcommand{\livequerying}{\node[iri] (live querying) {live querying};}
+\newcommand{\WikipakaWG}{\node[iri] (WikipakaWG) {WikipakaWG};}
+\newcommand{\TagEinsNoon}{\node[literal] (Tag 1 noon) {2019-12-27T\\12:00:00+0100};}
+\newcommand{\Congress}{\node[iri] (36C3) {36C3};}
+\newcommand{\Klimawahlen}{\node[iri] (Klimawahlen) {Klimawahlen};}
+\newcommand{\ChaosWestStage}{\node[iri] (Chaos-West Stage) {Chaos-West\\Stage};}
+\newcommand{\ChaosWest}{\node[iri] (Chaos West) {Chaos West};}
+
+\newcommand{\Vlivequerying}{\node[var] (live querying) {\rlap{?talk}\hphantom{live querying}};}
+\newcommand{\Vthistalk}{\node[var] (this talk) {\rlap{?talk}\hphantom{this talk}};}
+
+\newcommand{\thistalklivequerying}{\draw[predicate bidi] (this talk) to node {is followed by} (live querying);}
+\newcommand{\livequeryingthistalk}{\draw[predicate bidi] (live querying) to node {follows} (this talk);}
+\newcommand{\thistalkEsszimmer}{\draw[predicate,bend left] (this talk) to node {happens in} (Esszimmer);}
+\newcommand{\livequeryingEsszimmer}{\draw[predicate,swap] (live querying) to node {happens in} (Esszimmer);}
+
 \begin{document}
 
 \frame{\titlepage}
@@ -35,15 +54,15 @@
       every text node part/.style={align=center},
     ]
     \matrix {
-      & \node[iri] (Esszimmer) {Esszimmer}; & \node[iri] (Kueche) {Küche}; \\
-      \node[iri] (this talk) {this talk}; & \node[iri] (live querying) {live querying}; & \node[iri] (WikipakaWG) {WikipakaWG}; \\
-      \node[literal] (Tag 1 noon) {2019-12-27T\\12:00:00+0100}; & & \node[iri] (36C3) {36C3}; \\
-      \node[iri] (Klimawahlen) {Klimawahlen}; & \node[iri] (Chaos-West Stage) {Chaos-West\\Stage}; & \node[iri] (Chaos West) {Chaos West}; \\
+      & \Esszimmer & \Kueche \\
+      \thistalk & \livequerying & \WikipakaWG \\
+      \TagEinsNoon & & \Congress \\
+      \Klimawahlen & \ChaosWestStage & \ChaosWest \\
     };
-    \draw[predicate bidi] (this talk) to node {is followed by} (live querying);
-    \draw[predicate bidi] (live querying) to node {follows} (this talk);
-    \draw[predicate,bend left] (this talk) to node {happens in} (Esszimmer);
-    \draw[predicate,swap] (live querying) to node {happens in} (Esszimmer);
+    \thistalklivequerying
+    \livequeryingthistalk
+    \thistalkEsszimmer
+    \livequeryingEsszimmer
     \draw[predicate bidi] (Esszimmer) to node {is next to} (Kueche);
     \draw[predicate bidi,swap] (Kueche) to node {is next to} (Esszimmer);
     \draw[predicate,bend left=5] (Esszimmer) to node [pos=.6,inner sep=0] {is part of} (WikipakaWG);
@@ -63,18 +82,18 @@
 
   \begin{tikzpicture}
     \matrix {
-      \node[iri] (this talk) {this talk}; & \node[var] (live querying) {\rlap{?talk}\hphantom{live querying}}; \\
+      \thistalk & \Vlivequerying \\
     };
-    \draw[predicate bidi] (live querying) to node {follows} (this talk);
+    \livequeryingthistalk
   \end{tikzpicture}
 
   Matching triple:
 
   \begin{tikzpicture}
     \matrix {
-      \node[iri] (this talk) {this talk}; & \node[iri] (live querying) {live querying}; \\
+      \thistalk & \livequerying \\
     };
-    \draw[predicate bidi] (live querying) to node {follows} (this talk);
+    \livequeryingthistalk
   \end{tikzpicture}
 \end{frame}
 
@@ -86,18 +105,18 @@
 
   \begin{tikzpicture}
     \matrix {
-      \node[iri] (talk) {this talk}; & \node[var] (live querying) {\rlap{?talk}\hphantom{live querying}}; \\
+      \thistalk & \Vlivequerying \\
     };
-    \draw[predicate bidi] (this talk) to node {is followed by} (live querying);
+    \thistalklivequerying
   \end{tikzpicture}
 
   Matching triple:
 
   \begin{tikzpicture}
     \matrix {
-      \node[iri] (this talk) {this talk}; & \node[iri] (live querying) {live querying}; \\
+      \thistalk & \livequerying \\
     };
-    \draw[predicate bidi] (this talk) to node {is followed by} (live querying);
+    \thistalklivequerying
   \end{tikzpicture}
 \end{frame}
 
@@ -107,21 +126,21 @@
 
   \begin{tikzpicture}
     \matrix {
-      \node[iri] (Esszimmer) {Esszimmer}; \\
-      \node[var] (this talk) {\rlap{?talk}\hphantom{this talk}}; \\
+      \Esszimmer \\
+      \Vlivequerying \\
     };
-    \draw[predicate] (this talk) to node {happens in} (Esszimmer);
+    \livequeryingEsszimmer
   \end{tikzpicture}
 
   Matching triples:
 
   \begin{tikzpicture}
     \matrix {
-      & \node[iri] (Esszimmer) {Esszimmer}; \\
-      \node[iri] (this talk) {this talk}; & \node[iri] (live querying) {live querying}; \\
+      & \Esszimmer \\
+      \thistalk & \livequerying \\
     };
-    \draw[predicate,bend left] (this talk) to node {happens in} (Esszimmer);
-    \draw[predicate] (live querying) to node {happens in} (Esszimmer);
+    \thistalkEsszimmer
+    \livequeryingEsszimmer
   \end{tikzpicture}
 \end{frame}
 
