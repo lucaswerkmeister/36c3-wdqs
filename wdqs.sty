@@ -1,0 +1,73 @@
+% Usage:
+% \usepackage{wdqs}
+% or, if you need to squeeze the code together a bit:
+% \usepackage[scaled]{wdqs}
+% You can also select the font with the inconsolata, dejavu or vera options (default: dejavu)
+% And then:
+% \lstset{language=[wdqs]sparql}
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{wdqs}[2016/11/28]
+
+% The WDQS font-family list is: Menlo (Apple, proprietary), Monaco (Apple, proprietary), Consolas (Windows, proprietary), Courier New (Windows, proprietary), monospace (generic)
+% There are several choices to approximate them:
+% - Bitstream Vera, upon which Menlo is based.
+% - Deja Vu, a modification of Bitstream Vera upon which Menlo is also based.
+% - Inconsolata, which approximates Consolas.
+% The default choice is Deja Vu.
+% Additionally, all three fonts accept a [scaled] option, which this package passes along to them.
+\DeclareOption{inconsolata}{
+  \renewcommand{\ttdefault}{zi4}
+}
+\DeclareOption{dejavu}{
+  \renewcommand{\ttdefault}{DejaVuSansMono-TLF}
+}
+\DeclareOption{vera}{
+  \renewcommand{\ttdefault}{fvm}
+}
+\DeclareOption{scaled}{
+  \PassOptionsToPackage{\CurrentOption}{inconsolata}
+  \PassOptionsToPackage{\CurrentOption}{DejaVuSansMono}
+  \PassOptionsToPackage{\CurrentOption}{beramono}
+}
+
+\ExecuteOptions{dejavu}
+\ProcessOptions\relax
+
+\RequirePackage{listings}
+\RequirePackage{color}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{inconsolata}
+\RequirePackage{DejaVuSansMono}
+\RequirePackage{beramono}
+
+% SPARQL dialect that uses keywordstyle for ?variables and keywordstyle[2] for actual keywords
+\lstdefinelanguage[varkw]{sparql}[]{sparql}{
+  keywords={}, % clear keywords
+  keywordsprefix=?, % everything that starts with ? is a "keyword" (even, unfortunately, in comments)
+  keywords=[2]{BASE,PREFIX,SELECT,DISTINCT,CONSTRUCT,DESCRIBE,ASK,
+        FROM,NAMED,WHERE,ORDER,BY,ASC,DESC,LIMIT,OFFSET,OPTIONAL,
+        GRAPH,UNION,FILTER,a,STR,LANG,LANGMATCHES,DATATYPE,BOUND,
+        isIRI,isURI,isBLANK,isLITERAL,REGEX,true,false}, % add the regular keywords, but as [2]
+  morekeywords=[2]{SERVICE}, % extra keywords not in the original listings sparql language
+  alsoletter={:?}, % : in wd:Q42 and ? in ?person are both part of the identifier and should be colored
+  basicstyle=\ttfamily % select Inconsolata
+}
+
+% colors from WDQS CSS
+\definecolor{sparql_comment}{HTML}{aa5500} % CSS class cm-comment
+\definecolor{sparql_keyword}{HTML}{770088} % CSS class cm-keyword
+\definecolor{sparql_atom}{HTML}{221199} % CSS class cm-atom
+\definecolor{sparql_variable}{HTML}{0055aa} % CSS class cm-variable-2
+\definecolor{sparql_string}{HTML}{aa1111} % CSS class cm-string
+
+% SPARQL dialect that uses the WDQS syntax highlighting colors
+\lstdefinelanguage[wdqs]{sparql}[varkw]{sparql}{
+  commentstyle=\color{sparql_comment},
+  keywordstyle=\color{sparql_variable},
+  keywordstyle=[2]\color{sparql_keyword},
+  identifierstyle=\color{sparql_atom},
+  stringstyle=\color{sparql_string}
+}
+
+\endinput

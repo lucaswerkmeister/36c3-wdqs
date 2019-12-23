@@ -1,6 +1,7 @@
 \documentclass[aspectratio=169]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
+\usepackage{wdqs}
 
 \title{Querying Linked Data with SPARQL and the Wikidata Query Service}
 \author{Lucas Werkmeister}
@@ -24,6 +25,8 @@
   row sep=7mm,
   column sep=15mm,
 }
+
+\lstset{language=[wdqs]sparql}
 
 \newcommand{\Esszimmer}{\node[iri] (Esszimmer) {Esszimmer};}
 \newcommand{\Kueche}{\node[iri] (Kueche) {Küche};}
@@ -171,6 +174,27 @@
     \livequeryingEsszimmer
     \EsszimmerWikipakaWG
   \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{SPARQL}
+  \begin{tikzpicture}
+    \matrix {
+      \Esszimmer \\
+      \Vlivequerying \\
+    };
+    \livequeryingEsszimmer
+  \end{tikzpicture}
+
+  might translate into:
+
+  \begin{lstlisting}
+    SELECT * WHERE {
+      ?talk 36c3:happensIn 36c3:Esszimmer.
+    }
+  \end{lstlisting}
+
+  The \lstinline{36c3:} \emph{prefix} clarifies which Esszimmer we’re talking about.
 \end{frame}
 
 \end{document}
