@@ -38,11 +38,13 @@
 
 \newcommand{\Vlivequerying}{\node[var] (live querying) {\rlap{?talk}\hphantom{live querying}};}
 \newcommand{\Vthistalk}{\node[var] (this talk) {\rlap{?talk}\hphantom{this talk}};}
+\newcommand{\VEsszimmer}{\node[var] (Esszimmer) {\rlap{?room}\hphantom{Esszimmer}};}
 
 \newcommand{\thistalklivequerying}{\draw[predicate bidi] (this talk) to node {is followed by} (live querying);}
 \newcommand{\livequeryingthistalk}{\draw[predicate bidi] (live querying) to node {follows} (this talk);}
 \newcommand{\thistalkEsszimmer}{\draw[predicate,bend left] (this talk) to node {happens in} (Esszimmer);}
 \newcommand{\livequeryingEsszimmer}{\draw[predicate,swap] (live querying) to node {happens in} (Esszimmer);}
+\newcommand{\EsszimmerWikipakaWG}{\draw[predicate,bend left=5] (Esszimmer) to node [pos=.6,inner sep=0] {is part of} (WikipakaWG);}
 
 \begin{document}
 
@@ -65,7 +67,7 @@
     \livequeryingEsszimmer
     \draw[predicate bidi] (Esszimmer) to node {is next to} (Kueche);
     \draw[predicate bidi,swap] (Kueche) to node {is next to} (Esszimmer);
-    \draw[predicate,bend left=5] (Esszimmer) to node [pos=.6,inner sep=0] {is part of} (WikipakaWG);
+    \EsszimmerWikipakaWG
     \draw[predicate] (Kueche) to node {is part of} (WikipakaWG);
     \draw[predicate,swap] (WikipakaWG) to node {is part of} (36C3);
     \draw[predicate,swap] (this talk) to node {starts at} (Tag 1 noon);
@@ -141,6 +143,33 @@
     };
     \thistalkEsszimmer
     \livequeryingEsszimmer
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example questions}
+  Which talks happen in the WikipakaWG?
+  That is, which talks happen in a room that’s part of the WikipakaWG?
+
+  \begin{tikzpicture}
+    \matrix {
+      \VEsszimmer & \\
+      \Vlivequerying & \WikipakaWG \\
+    };
+    \livequeryingEsszimmer
+    \EsszimmerWikipakaWG
+  \end{tikzpicture}
+
+  Matching triples:
+
+  \begin{tikzpicture}
+    \matrix {
+      & \Esszimmer & \\
+      \Vthistalk & \Vlivequerying & \WikipakaWG \\
+    };
+    \thistalkEsszimmer
+    \livequeryingEsszimmer
+    \EsszimmerWikipakaWG
   \end{tikzpicture}
 \end{frame}
 
