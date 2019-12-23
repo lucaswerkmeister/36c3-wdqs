@@ -8,6 +8,19 @@
 \usetikzlibrary{shapes}
 \usetikzlibrary{shapes.multipart}
 
+\tikzset{
+  % node options
+  iri/.style={ellipse,draw},
+  literal/.style={rectangle,draw},
+  var/.style={ellipse,dashed,draw},
+  % path options
+  predicate/.style={->,auto},
+  predicate bidi/.style={predicate,bend left=5,inner sep=0.25mm},
+  % matrix options
+  row sep=7mm,
+  column sep=15mm,
+}
+
 \title{Querying Linked Data with SPARQL and the Wikidata Query Service}
 \author{Lucas Werkmeister}
 \date{2019-12-27}
@@ -19,13 +32,9 @@
 \begin{frame}[fragile]
   \frametitle{An example graph}
   \begin{tikzpicture}[
-      iri/.style={ellipse,draw},
-      literal/.style={rectangle,draw},
-      predicate/.style={->,auto},
-      predicate bidi/.style={predicate,bend left=5,inner sep=0.25mm},
       every text node part/.style={align=center},
     ]
-    \matrix[row sep=7mm,column sep=15mm] {
+    \matrix {
       & \node[iri] (Esszimmer) {Esszimmer}; & \node[iri] (Kueche) {Küche}; \\
       \node[iri] (this talk) {this talk}; & \node[iri] (live querying) {live querying}; & \node[iri] (WikipakaWG) {WikipakaWG}; \\
       \node[literal] (Tag 1 noon) {2019-12-27T\\12:00:00+0100}; & & \node[iri] (36C3) {36C3}; \\
@@ -45,6 +54,74 @@
     \draw[predicate] (Klimawahlen) to node {happens in} (Chaos-West Stage);
     \draw[predicate] (Chaos-West Stage) to node {is part of} (Chaos West);
     \draw[predicate] (Chaos West) to node {is part of} (36C3);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example questions}
+  Which talk follows this one?
+
+  \begin{tikzpicture}
+    \matrix {
+      \node[iri] (this talk) {this talk}; & \node[var] (live querying) {\rlap{?talk}\hphantom{live querying}}; \\
+    };
+    \draw[predicate bidi] (live querying) to node {follows} (this talk);
+  \end{tikzpicture}
+
+  Matching triple:
+
+  \begin{tikzpicture}
+    \matrix {
+      \node[iri] (this talk) {this talk}; & \node[iri] (live querying) {live querying}; \\
+    };
+    \draw[predicate bidi] (live querying) to node {follows} (this talk);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example questions}
+  Same question, phrased differently:
+  Which talk is this one followed by?
+  This talk is followed by which one?
+
+  \begin{tikzpicture}
+    \matrix {
+      \node[iri] (talk) {this talk}; & \node[var] (live querying) {\rlap{?talk}\hphantom{live querying}}; \\
+    };
+    \draw[predicate bidi] (this talk) to node {is followed by} (live querying);
+  \end{tikzpicture}
+
+  Matching triple:
+
+  \begin{tikzpicture}
+    \matrix {
+      \node[iri] (this talk) {this talk}; & \node[iri] (live querying) {live querying}; \\
+    };
+    \draw[predicate bidi] (this talk) to node {is followed by} (live querying);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example questions}
+  Which talk happens in Esszimmer?
+
+  \begin{tikzpicture}
+    \matrix {
+      \node[iri] (Esszimmer) {Esszimmer}; \\
+      \node[var] (this talk) {\rlap{?talk}\hphantom{this talk}}; \\
+    };
+    \draw[predicate] (this talk) to node {happens in} (Esszimmer);
+  \end{tikzpicture}
+
+  Matching triples:
+
+  \begin{tikzpicture}
+    \matrix {
+      & \node[iri] (Esszimmer) {Esszimmer}; \\
+      \node[iri] (this talk) {this talk}; & \node[iri] (live querying) {live querying}; \\
+    };
+    \draw[predicate,bend left] (this talk) to node {happens in} (Esszimmer);
+    \draw[predicate] (live querying) to node {happens in} (Esszimmer);
   \end{tikzpicture}
 \end{frame}
 
