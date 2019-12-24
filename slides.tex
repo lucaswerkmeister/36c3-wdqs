@@ -197,4 +197,47 @@
   The \lstinline{36c3:} \emph{prefix} clarifies which Esszimmer we’re talking about.
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{SPARQL}
+  \begin{tikzpicture}
+    \matrix {
+      \VEsszimmer & \\
+      \Vlivequerying & \WikipakaWG \\
+    };
+    \livequeryingEsszimmer
+    \EsszimmerWikipakaWG
+  \end{tikzpicture}
+
+  might translate into:
+
+  \begin{lstlisting}
+    SELECT * WHERE {
+      ?talk 36c3:happensIn ?room.
+      ?room 36c3:isPartOf 36c3:WikipakaWG.
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{SPARQL}
+  \begin{tikzpicture}
+    \matrix {
+      \VEsszimmer & \\
+      \Vlivequerying & \WikipakaWG \\
+    };
+    \livequeryingEsszimmer
+    \EsszimmerWikipakaWG
+  \end{tikzpicture}
+
+  might also translate into:
+
+  \begin{lstlisting}
+    SELECT ?talk WHERE {
+      ?talk 36c3:happensIn [
+        schema:isPartOf 36c3:WikipakaWG
+      ].
+    }
+  \end{lstlisting}
+\end{frame}
+
 \end{document}
