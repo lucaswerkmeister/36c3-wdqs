@@ -1,6 +1,8 @@
 \documentclass[aspectratio=169]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
+\usepackage{listings}
+\usepackage{lstautogobble}
 \usepackage{wdqs}
 
 \title{Querying Linked Data with SPARQL and the Wikidata Query Service}
@@ -26,7 +28,7 @@
   column sep=15mm,
 }
 
-\lstset{language=[wdqs]sparql}
+\lstset{language=[wdqs]sparql,autogobble}
 
 \newcommand{\Esszimmer}{\node[iri] (Esszimmer) {Esszimmer};}
 \newcommand{\Kueche}{\node[iri] (Kueche) {Küche};}
