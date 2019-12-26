@@ -1,5 +1,6 @@
 \documentclass[aspectratio=169]{beamer}
 \usepackage[utf8]{inputenc}
+\usepackage{xcolor}
 \usepackage{tikz}
 \usepackage{listings}
 \usepackage{lstautogobble}
@@ -15,11 +16,19 @@
 \usetikzlibrary{shapes}
 \usetikzlibrary{shapes.multipart}
 
+\colorlet{talk}{blue!50!black}
+\colorlet{room}{red!50!black}
+
 \tikzset{
   % node options
   iri/.style={ellipse,draw},
   literal/.style={rectangle,draw},
   var/.style={ellipse,dashed,draw},
+  varTalk/.style={var,text=talk},
+  varRoom/.style={var,text=room},
+  result/.style={iri,thick},
+  resultTalk/.style={result,text=talk},
+  resultRoom/.style={result,text=room},
   % path options
   predicate/.style={->,auto},
   predicate bidi/.style={predicate,bend left=5,inner sep=0.25mm},
@@ -41,9 +50,12 @@
 \newcommand{\ChaosWestStage}{\node[iri] (Chaos-West Stage) {Chaos-West\\Stage};}
 \newcommand{\ChaosWest}{\node[iri] (Chaos West) {Chaos West};}
 
-\newcommand{\Vlivequerying}{\node[var] (live querying) {\rlap{?talk}\hphantom{live querying}};}
-\newcommand{\Vthistalk}{\node[var] (this talk) {\rlap{?talk}\hphantom{this talk}};}
-\newcommand{\VEsszimmer}{\node[var] (Esszimmer) {\rlap{?room}\hphantom{Esszimmer}};}
+\newcommand{\Vlivequerying}{\node[varTalk] (live querying) {\rlap{?talk}\hphantom{live querying}};}
+\newcommand{\Vthistalk}{\node[varTalk] (this talk) {\rlap{?talk}\hphantom{this talk}};}
+\newcommand{\VEsszimmer}{\node[varRoom] (Esszimmer) {\rlap{?room}\hphantom{Esszimmer}};}
+\newcommand{\Rlivequerying}{\node[resultTalk] (live querying) {live querying};}
+\newcommand{\Rthistalk}{\node[resultTalk] (this talk) {this talk};}
+\newcommand{\REsszimmer}{\node[resultRoom] (Esszimmer) {Esszimmer};}
 
 \newcommand{\thistalklivequerying}{\draw[predicate bidi] (this talk) to node {is followed by} (live querying);}
 \newcommand{\livequeryingthistalk}{\draw[predicate bidi] (live querying) to node {follows} (this talk);}
@@ -98,7 +110,7 @@
 
   \begin{tikzpicture}
     \matrix {
-      \thistalk & \livequerying \\
+      \thistalk & \Rlivequerying \\
     };
     \livequeryingthistalk
   \end{tikzpicture}
@@ -121,7 +133,7 @@
 
   \begin{tikzpicture}
     \matrix {
-      \thistalk & \livequerying \\
+      \thistalk & \Rlivequerying \\
     };
     \thistalklivequerying
   \end{tikzpicture}
@@ -144,7 +156,7 @@
   \begin{tikzpicture}
     \matrix {
       & \Esszimmer \\
-      \thistalk & \livequerying \\
+      \Rthistalk & \Rlivequerying \\
     };
     \thistalkEsszimmer
     \livequeryingEsszimmer
@@ -169,8 +181,8 @@
 
   \begin{tikzpicture}
     \matrix {
-      & \Esszimmer & \\
-      \thistalk & \livequerying & \WikipakaWG \\
+      & \REsszimmer & \\
+      \Rthistalk & \Rlivequerying & \WikipakaWG \\
     };
     \thistalkEsszimmer
     \livequeryingEsszimmer
