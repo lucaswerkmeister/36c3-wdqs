@@ -29,6 +29,7 @@
   result/.style={iri,thick},
   resultTalk/.style={result,text=talk},
   resultRoom/.style={result,text=room},
+  varliteral/.style={var,literal},
   % path options
   predicate/.style={->,auto},
   predicate bidi/.style={predicate,bend left=5,inner sep=0.25mm},
@@ -254,6 +255,260 @@
       ].
     }
   \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \setlength{\parskip}{5mm}
+  \frametitle{Example queries}
+  Which software is written in Bash?
+  \pause
+
+  \begin{tikzpicture}
+    \matrix {
+      \node[var] (software) {?software}; & \node[iri] (Bash) {Bash}; \\
+    };
+    \draw[predicate,bend left] (software) to node {programming language} (Bash);
+  \end{tikzpicture}
+  \pause
+
+  \begin{lstlisting}
+    SELECT ?software WHERE {
+      ?software wdt:P277 wd:Q189248.
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \setlength{\parskip}{5mm}
+  \frametitle{Example queries}
+  Who was born at sea?
+  \pause
+
+  \begin{tikzpicture}
+    \matrix {
+      \node[var] (person) {?person}; & \node[iri] (at sea) {at sea}; \\
+    };
+    \draw[predicate,bend left] (person) to node {place of birth} (at sea);
+  \end{tikzpicture}
+  \pause
+
+  \begin{lstlisting}
+    SELECT ?person WHERE {
+      ?person wdt:P19 wd:Q55438959.
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \setlength{\parskip}{5mm}
+  \frametitle{Example queries}
+  Which places are located on the White Elster?
+  \pause
+
+  \begin{tikzpicture}
+    \matrix {
+      \node[var] (place) {?place}; & \node[iri] (White Elster) {White Elster}; \\
+    };
+    \draw[predicate,bend left] (place) to node {located in or next to body of water} (White Elster);
+  \end{tikzpicture}
+  \pause
+
+  \begin{lstlisting}
+    SELECT ?place WHERE {
+      ?place wdt:P206 wd:Q44729.
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \setlength{\parskip}{5mm}
+  \frametitle{Example queries}
+  Where does The Neverending Story take place?
+  \pause
+
+  \begin{tikzpicture}
+    \matrix {
+      \node[iri] (The Neverending Story) {The Neverending Story}; & \node[var] (place) {?place}; \\
+    };
+    \draw[predicate,bend left] (The Neverending Story) to node {narrative location} (place);
+  \end{tikzpicture}
+  \pause
+
+  \begin{lstlisting}
+    SELECT ?place WHERE {
+      wd:Q463108 wdt:P840 ?place.
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example queries}
+  Which popes had children?
+  \pause
+
+  \begin{tikzpicture}
+    \matrix {
+      \node[var] (child) {?child}; & \node[var] (pope) {?pope}; & \node[iri] (Pope) {pope}; \\
+    };
+    \draw[predicate,bend left] (child) to node {father} (pope);
+    \draw[predicate,bend left] (pope) to node {position held} (Pope);
+  \end{tikzpicture}
+  \pause
+
+  \begin{lstlisting}
+    SELECT ?pope ?child WHERE {
+      ?child wdt:P22 ?pope.
+      ?pope wdt:P39 wd:Q19546.
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example queries}
+  Which popes had children?
+  \pause
+
+  \begin{tikzpicture}
+    \matrix {
+      & \node[iri] (Pope) {pope}; \\
+      \node[var] (pope) {?pope}; & \\
+      & \node[var] (child) {?child}; \\
+    };
+    \draw[predicate] (pope) to node {position held} (Pope);
+    \draw[predicate] (pope) to node {child} (child);
+  \end{tikzpicture}
+  \pause
+
+  \begin{lstlisting}
+    SELECT ?pope ?child WHERE {
+      ?pope wdt:P39 wd:Q19546;
+            wdt:P40 ?child.
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example queries}
+  Which Microsoft software runs on Linux?
+  \pause
+
+  \begin{tikzpicture}
+    \matrix {
+      & \node[iri] (Microsoft) {Microsoft}; \\
+      \node[var] (software) {?software}; & \\
+      & \node[iri] (Linux) {Linux}; \\
+    };
+    \draw[predicate] (software) to node {developer} (Microsoft);
+    \draw[predicate] (software) to node {operating system} (Linux);
+  \end{tikzpicture}
+  \pause
+
+  \begin{lstlisting}
+    SELECT ?software WHERE {
+      ?software wdt:P178 wd:Q2283;
+                wdt:P306 wd:Q388.
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example queries}
+  What are some compositions for organ and orchestra?
+  \pause
+
+  \begin{tikzpicture}
+    \matrix {
+      & \node[iri] (organ) {organ}; \\
+      \node[var] (composition) {?composition}; & \\
+      & \node[iri] (orchestra) {orchestra}; \\
+    };
+    \draw[predicate] (composition) to node {instrumentation} (organ);
+    \draw[predicate] (composition) to node {instrumentation} (orchestra);
+  \end{tikzpicture}
+  \pause
+
+  \begin{lstlisting}
+    SELECT ?composition WHERE {
+      ?composition wdt:P870 wd:Q1444, wd:Q42998.
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example queries}
+  Which Nazi party members later received the Order of Merit of the Federal Republic of Germany?
+  \pause
+
+  \begin{tikzpicture}
+    \matrix[row sep=4mm] {
+      & \node[iri] (NSDAP) {NSDAP}; \\
+      \node[var] (person) {?person}; & \node[iri] (human) {human}; \\
+      & \node[iri] (Bundesverdienstkreuz) {Bundesverdienstkreuz}; \\
+    };
+    \draw[predicate] (person) to node {member of political party} (NSDAP);
+    \draw[predicate] (person) to node [pos=.7] {instance of} (human);
+    \draw[predicate,swap] (person) to node {award received} (Bundesverdienstkreuz);
+  \end{tikzpicture}
+  \pause
+
+  \begin{lstlisting}
+    SELECT ?person WHERE {
+      ?person wdt:P31 wd:Q5;
+              wdt:P102 wd:Q7320;
+              wdt:P166 wd:Q21164.
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example queries}
+  What are the largest cities (by population) with a female mayor?
+
+  \begin{overprint}
+    \onslide<2>
+    \begin{tikzpicture}
+      \matrix[row sep=15mm,column sep=30mm] {
+        & \node[iri] (City) {city}; & \\
+        \node[var] (city) {?city}; & \node[varliteral] (population) {?population}; & \node[iri] (human) {human}; \\
+        & \node[var] (mayor) {?mayor}; & \node[iri] (female) {?female}; \\
+      };
+      \draw[predicate] (city) to node {instance of} (City);
+      \draw[predicate] (city) to node {population} (population);
+      \draw[predicate,swap] (city) to node {head of government} (mayor);
+      \draw[predicate] (mayor) to node {instance of} (human);
+      \draw[predicate] (mayor) to node {gender} (female);
+    \end{tikzpicture}
+
+    (Not pictured: the “largest” part.)
+  
+    \onslide<3>
+    \begin{lstlisting}
+      SELECT ?city ?mayor ?population WHERE {
+        ?city wdt:P31 wd:Q515;
+              wdt:P1082 ?population;
+              wdt:P6 ?mayor.
+        ?mayor wdt:P31 wd:Q5;
+               wdt:P21 wd:Q6581072.
+      }
+      ORDER BY DESC(?population)
+      LIMIT 10
+    \end{lstlisting}
+    (Note that this misses some items that are e.\,g. “instance of: big city” rather than “instance of: city”.)
+  
+    \onslide<4>
+    \begin{lstlisting}
+      SELECT ?city WHERE {
+        ?city wdt:P31 wd:Q515;
+              wdt:P1082 ?population;
+              wdt:P6 [
+                wdt:P31 wd:Q5;
+                wdt:P21 wd:Q6581072
+              ].
+      }
+      ORDER BY DESC(?population)
+      LIMIT 10
+    \end{lstlisting}
+  \end{overprint}
 \end{frame}
 
 \end{document}
