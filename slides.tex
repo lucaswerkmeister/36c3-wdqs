@@ -5,6 +5,7 @@
 \usepackage{listings}
 \usepackage{lstautogobble}
 \usepackage{wdqs}
+\usepackage{hyperref}
 
 \title{Querying Linked Data with SPARQL and the Wikidata Query Service}
 \author{Lucas Werkmeister}
@@ -63,6 +64,9 @@
 \newcommand{\thistalkEsszimmer}{\draw[predicate,bend left] (this talk) to node {happens in} (Esszimmer);}
 \newcommand{\livequeryingEsszimmer}{\draw[predicate,swap] (live querying) to node {happens in} (Esszimmer);}
 \newcommand{\EsszimmerWikipakaWG}{\draw[predicate,bend left=5] (Esszimmer) to node [pos=.6,inner sep=0] {is part of} (WikipakaWG);}
+
+\newcommand{\Twitter}[1]{\href{https://twitter.com/#1}{@#1}}
+\newcommand{\Mastodon}[2]{\href{https://#2/@#1}{@#1@#2}}
 
 \begin{document}
 
@@ -509,6 +513,13 @@
       LIMIT 10
     \end{lstlisting}
   \end{overprint}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Closing stuff}
+  \begin{itemize}
+  \item Fun/interesting queries: \Twitter{WikidataFacts} and \Mastodon{WikidataFacts}{mastodon.social}
+  \end{itemize}
 \end{frame}
 
 \end{document}
